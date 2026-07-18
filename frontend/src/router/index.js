@@ -12,7 +12,7 @@ const routes = [
     component: () => import('@/views/HomeView.vue'),
     redirect: '/app/overview',
     children: [
-      // TODO[队长]: 实现 OverviewPanel.vue 后取消注释下行，删除 placeholder 行
+      // TODO[总览]: 实现 OverviewPanel.vue 后取消注释下行，删除 placeholder 行
       // { path: 'overview', component: () => import('@/views/panels/OverviewPanel.vue') },
       { path: 'overview', component: () => import('@/views/panels/PlaceholderPanel.vue') },
 
@@ -32,15 +32,15 @@ const routes = [
       // { path: 'summaries', component: () => import('@/views/panels/SummaryPanel.vue') },
       { path: 'summaries', component: () => import('@/views/panels/PlaceholderPanel.vue') },
 
-      // TODO[队长]: 实现 MemberListPanel.vue 后取消注释下行，删除 placeholder 行
+      // TODO[成员列表]: 实现 MemberListPanel.vue 后取消注释下行，删除 placeholder 行
       // { path: 'members', component: () => import('@/views/panels/MemberListPanel.vue') },
       { path: 'members', component: () => import('@/views/panels/PlaceholderPanel.vue') },
 
-      // TODO[队长]: 实现 ProfilePanel.vue 后取消注释下行，删除 placeholder 行
+      // TODO[个人信息]: 实现 ProfilePanel.vue 后取消注释下行，删除 placeholder 行
       // { path: 'profile', component: () => import('@/views/panels/ProfilePanel.vue') },
       { path: 'profile', component: () => import('@/views/panels/PlaceholderPanel.vue') },
 
-      // TODO[队长]: 实现 AiTaskPlanPanel.vue 后取消注释下行，删除 placeholder 行
+      // TODO[AI拆解]: 实现 AiTaskPlanPanel.vue 后取消注释下行，删除 placeholder 行
       // { path: 'ai-task-plan', component: () => import('@/views/panels/AiTaskPlanPanel.vue') },
       { path: 'ai-task-plan', component: () => import('@/views/panels/PlaceholderPanel.vue') },
     ]
