@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Maven Wrapper startup script
+
+PRG="$0"
+while [ -h "$PRG" ]; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`/"$link"
+  fi
+done
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/" >/dev/null
+APP_HOME="`pwd -P`"
+cd "$SAVED" >/dev/null
+
+DEFAULT_JVM_OPTS="-Xmx64m -Xms64m"
+
+MAVEN_OPTS="${MAVEN_OPTS} -Dfile.encoding=UTF-8"
+
+WRAPPER_JAR="$APP_HOME/.mvn/wrapper/maven-wrapper.jar"
+WRAPPER_PROPERTIES="$APP_HOME/.mvn/wrapper/maven-wrapper.properties"
+
+# Resolve java home
+if [ -z "$JAVA_HOME" ]; then
+  JAVA_EXEC="java"
+else
+  JAVA_EXEC="$JAVA_HOME/bin/java"
+fi
+
+if [ ! -f "$WRAPPER_JAR" ]; then
+  # Download wrapper jar
+  if command -v curl >/dev/null 2>&1; then
+    curl -sL "https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.3.2/maven-wrapper-3.3.2.jar" -o "$WRAPPER_JAR"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q "https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.3.2/maven-wrapper-3.3.2.jar" -O "$WRAPPER_JAR"
+  fi
+fi
+
+# Convert POSIX paths to Windows paths (required for Java on MSYS/Git Bash)
+if command -v cygpath >/dev/null 2>&1; then
+  APP_HOME_WIN=`cygpath -w "$APP_HOME"`
+  WRAPPER_JAR_WIN=`cygpath -w "$WRAPPER_JAR"`
+else
+  APP_HOME_WIN="$APP_HOME"
+  WRAPPER_JAR_WIN="$WRAPPER_JAR"
+fi
+
+exec "$JAVA_EXEC" $DEFAULT_JVM_OPTS $MAVEN_OPTS \
+  -classpath "$WRAPPER_JAR_WIN" \
+  "-Dmaven.multiModuleProjectDirectory=$APP_HOME_WIN" \
+  org.apache.maven.wrapper.MavenWrapperMain "$@"
