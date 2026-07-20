@@ -1,14 +1,19 @@
-/*
- * TODO[模块一]: 创建 ProjectMapper.java
+/**
+ * 数据访问层 — 各模块的 Mapper 接口清单。
  *
- *   参考: mapper/UserMapper.java (注解 SQL 写法)
+ * 【已存在】
+ *   UserMapper.java — 用户表（参考模板，包含 @Select / @Insert / @Update / @Delete 注解 SQL 的完整写法）
  *
- *   方法:
- *   - selectAll()                          @Select 查询全部，ORDER BY id DESC
- *   - insertProject(ProjectInfo)           @Insert + @Options(useGeneratedKeys=true)
- *   - updateProject(ProjectInfo)           @Update 更新全部字段
- *   - deleteById(Long id)                  @Delete
+ * 【模块一】项目管理
+ *   ProjectMapper.java → 参考 UserMapper.java
+ *   表：project_info
  *
- *   表名: project_info
+ * 【模块二】任务管理
+ *   TaskMapper.java → 参考 UserMapper.java
+ *   表：task_info
+ *
+ * 【模块三】进度跟踪 + 总结中心
+ *   TaskLogMapper.java     → 参考 UserMapper.java   表：task_log
+ *   TaskSummaryMapper.java → 参考 UserMapper.java   表：task_summary
  */
 package com.flowsync.mapper;

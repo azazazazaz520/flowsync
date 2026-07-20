@@ -11,7 +11,10 @@ dist/
 # ========== IDE ==========
 .idea/
 *.iml
-.vscode/
+.vscode/settings.json
+
+# ========== Cache ==========
+.classpath.txt
 
 # ========== OS ==========
 .DS_Store

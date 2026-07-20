@@ -14,37 +14,9 @@
         text-color="#bfcbd9"
         active-text-color="#409eff"
       >
-        <el-menu-item index="/app/overview">
-          <el-icon><DataBoard /></el-icon>
-          <span>总览</span>
-        </el-menu-item>
-        <el-menu-item index="/app/projects">
-          <el-icon><Folder /></el-icon>
-          <span>项目管理</span>
-        </el-menu-item>
-        <el-menu-item v-if="store.isLeader" index="/app/ai-task-plan">
-          <el-icon><MagicStick /></el-icon>
-          <span>任务拆解</span>
-        </el-menu-item>
-        <el-menu-item index="/app/tasks">
-          <el-icon><List /></el-icon>
-          <span>任务管理</span>
-        </el-menu-item>
-        <el-menu-item index="/app/tasklogs">
-          <el-icon><Timer /></el-icon>
-          <span>进度跟踪</span>
-        </el-menu-item>
-        <el-menu-item index="/app/summaries">
-          <el-icon><Document /></el-icon>
-          <span>总结中心</span>
-        </el-menu-item>
-        <el-menu-item index="/app/members">
-          <el-icon><User /></el-icon>
-          <span>成员列表</span>
-        </el-menu-item>
-        <el-menu-item index="/app/profile">
-          <el-icon><UserFilled /></el-icon>
-          <span>个人信息</span>
+        <el-menu-item v-for="item in menuItems" :key="item.path" :index="item.path">
+          <el-icon><component :is="item.icon" /></el-icon>
+          <span>{{ item.label }}</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -84,6 +56,14 @@ const route = useRoute()
 const store = useMainStore()
 const isCollapse = ref(false)
 const activeMenu = computed(() => route.path)
+
+// ========== 侧边栏菜单项（扩展时在此数组中加一行即可） ==========
+const menuItems = [
+  { path: '/app/projects',  icon: 'Folder',   label: '项目管理' },
+  { path: '/app/tasks',     icon: 'List',     label: '任务管理' },
+  { path: '/app/tasklogs',  icon: 'Timer',    label: '进度跟踪' },
+  { path: '/app/summaries', icon: 'Document', label: '总结中心' },
+]
 
 onMounted(() => {
   store.loadFromStorage()

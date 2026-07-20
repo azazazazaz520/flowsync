@@ -63,6 +63,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>com.flowsync.App</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

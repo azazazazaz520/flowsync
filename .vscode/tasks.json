@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "启动后端",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\start-backend.ps1"],
+      "group": "build",
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动前端",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\start-frontend.ps1"],
+      "group": "build",
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动全部",
+      "dependsOn": ["启动后端", "启动前端"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ]
+}
