@@ -16,12 +16,12 @@ public class TaskSummaryServiceImpl implements TaskSummaryService {
 
     @Override
     public List<TaskSummary> listAll() {
-        // TODO[模块四]: 调用 taskSummaryMapper.selectAll() 返回全部总结
-        return null;
+        return taskSummaryMapper.selectAll();
     }
 
     @Override
     public void save(TaskSummary summary, Long currentUserId) {
-        // TODO[模块四]: 设 createdBy = currentUserId，调用 taskSummaryMapper.insertSummary(summary)
+        summary.setCreatedBy(currentUserId);
+        taskSummaryMapper.insertSummary(summary);
     }
 }

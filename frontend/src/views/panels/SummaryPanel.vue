@@ -88,9 +88,21 @@ const projectOptions = ref([])
 const taskOptions = ref([])
 const userOptions = ref([])
 
-// TODO[模块四]: 实现 fetchOptions，调用 GET /api/projects、GET /api/tasks、GET /api/users
+// [模块四]: 实现 fetchOptions，调用 GET /api/projects、GET /api/tasks、GET /api/users
 //   分别填充 projectOptions / taskOptions / userOptions
 const fetchOptions = async () => {
+  try {
+    const [projectsRes, tasksRes, usersRes] = await Promise.all([
+      request.get('/projects'),
+      request.get('/tasks'),
+      request.get('/users')
+    ])
+    projectOptions.value = projectsRes.data.data
+    taskOptions.value = tasksRes.data.data
+    userOptions.value = usersRes.data.data
+  } catch (e) {
+    ElMessage.error('加载下拉选项失败')
+  }
 }
 
 // 根据选中项目过滤任务列表
@@ -124,19 +136,45 @@ function resetForm() { form.value = getEmptyForm() }
 
 // ========== 列表查询 ==========
 const fetchList = async () => {
-  // TODO[模块四]: 调用 GET /api/summaries，将返回的 res.data 赋值给 dataList
+  loading.value = true
+  try {
+    const res = await request.get('/summaries')
+    dataList.value = res.data.data
+  } catch (e) {
+    ElMessage.error('加载总结列表失败')
+  } finally {
+    loading.value = false
+  }
 }
 
 // ========== 新增 ==========
 function openAddDialog() { dialogVisible.value = true }
 
 const submitForm = async () => {
-  // TODO[模块四]: 调用 POST /api/summaries 提交 form.value
-  //   成功后关闭弹窗并刷新列表
+  if (!form.value.projectId) {
+    ElMessage.warning('请选择项目')
+    return
+  }
+  if (!form.value.content) {
+    ElMessage.warning('请输入总结内容')
+    return
+  }
+  submitting.value = true
+  try {
+    await request.post('/summaries', form.value)
+    ElMessage.success('新增成功')
+    dialogVisible.value = false
+    fetchList()
+  } catch (e) {
+    ElMessage.error('新增总结失败')
+  } finally {
+    submitting.value = false
+  }
 }
 
 onMounted(() => {
-  // TODO[模块四]: 调用 fetchOptions() 和 fetchList()
+  fetchOptions()
+  fetchList()
 })
 </script>
 

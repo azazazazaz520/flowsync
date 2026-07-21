@@ -3,6 +3,9 @@ package com.flowsync.controller;
 import com.flowsync.common.Result;
 import com.flowsync.entity.TaskSummary;
 import com.flowsync.service.TaskSummaryService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +22,8 @@ public class TaskSummaryController {
      */
     @GetMapping("/api/summaries")
     public Result list() {
-        // TODO[模块四]: 调用 taskSummaryService.listAll()，使用 Result.success().data("data", list) 返回
-        return null;
+        List<TaskSummary> list = taskSummaryService.listAll();
+        return Result.success().data("data", list);
     }
 
     /**
@@ -29,7 +32,7 @@ public class TaskSummaryController {
      */
     @PostMapping("/api/summaries")
     public Result save(@RequestBody TaskSummary summary, Long currentUserId) {
-        // TODO[模块四]: 调用 taskSummaryService.save(summary, currentUserId)，返回 Result.success()
-        return null;
+        taskSummaryService.save(summary, currentUserId);
+        return Result.success().msg("新增成功");
     }
 }
