@@ -19,8 +19,7 @@ public class ProjectController {
      */
     @GetMapping("/api/projects")
     public Result list() {
-        // TODO[模块一]: 调用 projectService.listAll()，使用 Result.success().data("data", list) 返回
-        return null;
+        return Result.success().data("data", projectService.listAll());
     }
 
     /**
@@ -29,9 +28,9 @@ public class ProjectController {
      * currentUserId 由前端 axios 拦截器自动注入为请求参数。
      */
     @PostMapping("/api/projects")
-    public Result save(@RequestBody ProjectInfo project, Long currentUserId) {
-        // TODO[模块一]: 调用 projectService.save(project, currentUserId)，返回 Result.success()
-        return null;
+    public Result save(@RequestBody ProjectInfo project, @RequestParam Long currentUserId) {
+        projectService.save(project, currentUserId);
+        return Result.success();
     }
 
     /**
@@ -39,7 +38,7 @@ public class ProjectController {
      */
     @DeleteMapping("/api/projects/{id}")
     public Result delete(@PathVariable Long id) {
-        // TODO[模块一]: 调用 projectService.remove(id)，返回 Result.success()
-        return null;
+        projectService.remove(id);
+        return Result.success();
     }
 }
