@@ -16,19 +16,21 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectInfo> listAll() {
-        // TODO[模块一]: 调用 projectMapper.selectAll() 返回全部项目
-        return null;
+        return projectMapper.selectAll();
     }
 
     @Override
     public void save(ProjectInfo project, Long currentUserId) {
-        // TODO[模块一]: 判断 project.getId() 是否为 null（新增 or 编辑）
-        //   新增时：设 ownerId = currentUserId，调用 projectMapper.insertProject(project)
-        //   编辑时：调用 projectMapper.updateProject(project)
+        if (project.getId() == null) {
+            project.setOwnerId(currentUserId);
+            projectMapper.insertProject(project);
+        } else {
+            projectMapper.updateProject(project);
+        }
     }
 
     @Override
     public void remove(Long id) {
-        // TODO[模块一]: 调用 projectMapper.deleteById(id) 删除项目
+        projectMapper.deleteById(id);
     }
 }

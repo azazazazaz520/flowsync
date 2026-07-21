@@ -99,11 +99,20 @@ function getEmptyForm() {
 
 function resetForm() {
   form.value = getEmptyForm()
+  isEdit.value = false
 }
 
 // ========== 列表查询 ==========
 const fetchList = async () => {
-  // TODO[模块一]: 调用 GET /api/projects，将返回的 res.data 赋值给 dataList
+  loading.value = true
+  try {
+    const res = await request.get('/projects')
+    dataList.value = res.data.data
+  } catch {
+    ElMessage.error('项目列表加载失败')
+  } finally {
+    loading.value = false
+  }
 }
 
 // ========== 新增 / 编辑 ==========
@@ -113,18 +122,48 @@ function openAddDialog() {
 }
 
 function openEditDialog(row) {
-  // TODO[模块一]: 设置 isEdit = true，将 row 的属性复制到 form，打开弹窗
+  isEdit.value = true
+  form.value = { ...row }
+  dialogVisible.value = true
 }
 
 const submitForm = async () => {
-  // TODO[模块一]: 调用 POST /api/projects 提交 form.value
-  //   成功后关闭弹窗并 refreshList()
+  if (!form.value.name.trim()) {
+    ElMessage.warning('请输入项目名称')
+    return
+  }
+
+  submitting.value = true
+  try {
+    await request.post('/projects', form.value, {
+      params: { currentUserId: store.currentUserId }
+    })
+    ElMessage.success(isEdit.value ? '项目编辑成功' : '项目新增成功')
+    dialogVisible.value = false
+    await fetchList()
+  } catch {
+    ElMessage.error(isEdit.value ? '项目编辑失败' : '项目新增失败')
+  } finally {
+    submitting.value = false
+  }
 }
 
 // ========== 删除 ==========
 const handleDelete = async (row) => {
-  // TODO[模块一]: 使用 ElMessageBox.confirm 确认后调用 DELETE /api/projects/{id}
-  //   成功后刷新列表
+  try {
+    await ElMessageBox.confirm(
+      `确定删除项目“${row.name}”吗？`,
+      '删除确认',
+      { type: 'warning', confirmButtonText: '确定', cancelButtonText: '取消' }
+    )
+    await request.delete(`/projects/${row.id}`)
+    ElMessage.success('项目删除成功')
+    await fetchList()
+  } catch (error) {
+    if (error !== 'cancel' && error !== 'close') {
+      ElMessage.error('项目删除失败')
+    }
+  }
 }
 
 // ========== 辅助 ==========
@@ -137,7 +176,7 @@ function priorityType(priority) {
 }
 
 onMounted(() => {
-  // TODO[模块一]: 调用 fetchList()
+  fetchList()
 })
 </script>
 
